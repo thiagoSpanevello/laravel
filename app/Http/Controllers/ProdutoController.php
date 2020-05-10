@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProdutoRequest;
 use App\Produto;
 use Illuminate\Support\Facades\DB;
+use App\Charts\ProdChart;
 
 
 class ProdutoController extends Controller
@@ -25,10 +26,15 @@ class ProdutoController extends Controller
         ->orderBy('valor', 'desc')
         ->take(5)
         ->get();
-        $total_produtos = DB::table('_produtos')->sum('valor');
-   
 
-        return view('produto.grafico',compact('produtos', 'total_produtos'));
+        $chart = new ProdChart;
+        $chart->labels([$produtos[0]->nome,$produtos[1]->nome,$produtos[2]->nome,$produtos[3]->nome,$produtos[4]->nome]);
+        $chart->dataset('valores', 'line', [$produtos[0]->valor,$produtos[1]->valor,$produtos[2]->valor,$produtos[3]->valor,$produtos[4]->valor]);
+
+
+        
+
+        return view('produto.grafico',compact('chart'));
     }
 
     /**

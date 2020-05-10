@@ -1,33 +1,46 @@
-@extends('layouts.app', ['title' => __('Edição de Produto')])
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+
+@extends('layouts.app')
 
 @section('content')
-@include('users.partials.header', ['title' => __('Editar Produto')])
-
-<div class="container-fluid mt--7" style="margin-top:1.5%!important">
-
-
-    @foreach($produtos as $prod)
-
-    <?php
-    $valor_porcent = ($prod->valor * 100) / $total_produtos;
-    $valor_porcentr = number_format($valor_porcent, 2, '.', '');
-    ?>
-    <div class = 'row col-8' >
-    <div class='col-2'><?php echo $prod->nome;?></div>
-    <div style="background-color: #642EFE;margin-left:1%; width: <?php echo $valor_porcent;?>%!important"><br></div>
-    <div style="margin-left:18%;position:absolute; color: grey" ><?php echo $valor_porcentr;?>%</div>
-    <div style="margin-left:24%;position:absolute; color: grey" >R$<?php echo $prod->valor;?></div>
-    </div>
-    <br>
-  
-
+    @include('layouts.headers.cards')
     
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 mb-5 mb-xl-0">
+                <div class="card bg-gradient-default shadow">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-light ls-1 mb-1">Produtos Mais Caros</h6>
+                                <h2 class="text-white mb-0">Valores</h2>
+                            </div>
+                            <div class="col">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                                {!!$chart->container()!!}
+                                {!!$chart->script()!!}
+                      
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+       
 
-    @endforeach
-
-
-
-
-    @include('layouts.footers.auth')
-</div>
+        @include('layouts.footers.auth')
+    </div>
 @endsection
+
+@push('js')
+    <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+@endpush
+
+
+
+
